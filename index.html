@@ -1,17 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProjectDozG - Enhanced OneUI 8.5</title>
+    <title>ProjectDozG — Enhanced OneUI 8.5</title>
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0c10;
-            --card-bg: #15161d;
-            --text-main: #ffffff;
-            --text-muted: #a0a0a0;
+            /* Transition Config */
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            
+            /* Dark Theme Colors (Default) */
+            --bg-color: #08090d;
+            --card-bg: rgba(21, 23, 30, 0.6);
+            --card-hover-border: rgba(255, 65, 108, 0.3);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
             --accent: #ff416c;
-            --accent-gradient: linear-gradient(90deg, #ff416c, #ff4b2b);
+            --accent-glow: rgba(255, 65, 108, 0.4);
+            --accent-gradient: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --glass-shadow: rgba(0, 0, 0, 0.4);
+            --nav-bg: rgba(8, 9, 13, 0.75);
+            --warning-bg: rgba(249, 115, 22, 0.06);
+            --warning-border: rgba(249, 115, 22, 0.2);
+            --step-num-bg: rgba(255, 255, 255, 0.05);
+            --step-num-active: #ff416c;
+        }
+
+        [data-theme="light"] {
+            /* Light Theme Colors */
+            --bg-color: #f8fafc;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-hover-border: rgba(225, 29, 72, 0.3);
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --accent: #e11d48;
+            --accent-glow: rgba(225, 29, 72, 0.2);
+            --accent-gradient: linear-gradient(135deg, #e11d48 0%, #f43f5e 100%);
+            --glass-border: rgba(15, 23, 42, 0.08);
+            --glass-shadow: rgba(15, 23, 42, 0.05);
+            --nav-bg: rgba(248, 250, 252, 0.75);
+            --warning-bg: rgba(234, 88, 12, 0.05);
+            --warning-border: rgba(234, 88, 12, 0.2);
+            --step-num-bg: rgba(15, 23, 42, 0.05);
+            --step-num-active: #e11d48;
         }
 
         * {
@@ -19,80 +55,223 @@
             margin: 0;
             padding: 0;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
             line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* Navbar */
+        /* Ambient Background Blobs */
+        .blob-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.12;
+            animation: floatBlob 25s infinite ease-in-out alternate;
+        }
+
+        .blob-1 {
+            width: 500px;
+            height: 500px;
+            background: var(--accent);
+            top: -10%;
+            right: -10%;
+        }
+
+        .blob-2 {
+            width: 400px;
+            height: 400px;
+            background: #4f46e5;
+            bottom: -5%;
+            left: -10%;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-80px, 40px) scale(1.1); }
+            100% { transform: translate(40px, -60px) scale(0.95); }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--glass-border);
+            border-radius: 5px;
+            border: 2px solid var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-muted);
+        }
+
+        /* Scroll Reveal Effect Class */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Floating Navbar */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            background: rgba(11, 12, 16, 0.8);
+            padding: 15px 5%;
+            background: var(--nav-bg);
             position: sticky;
             top: 0;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             z-index: 100;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid var(--glass-border);
+            transition: var(--transition-smooth);
         }
 
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.3rem;
+            font-weight: 800;
             color: var(--text-main);
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         nav a {
             color: var(--text-muted);
             text-decoration: none;
-            margin: 0 15px;
-            font-size: 0.95rem;
+            padding: 8px 16px;
+            font-size: 0.9rem;
             font-weight: 500;
-            transition: color 0.3s ease;
+            border-radius: 8px;
+            transition: var(--transition-smooth);
         }
 
         nav a:hover {
             color: var(--text-main);
+            background: var(--glass-border);
+        }
+
+        /* Dark/Light Toggle */
+        .theme-toggle-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+            margin-left: 10px;
+        }
+
+        .theme-toggle-btn:hover {
+            color: var(--text-main);
+            background: var(--glass-border);
+            transform: scale(1.05);
+        }
+
+        .theme-toggle-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         /* Hero Section */
         .hero {
             text-align: center;
-            padding: 120px 20px 80px;
+            padding: 140px 20px 80px;
+            position: relative;
         }
 
         .badge {
-            display: inline-block;
-            background: rgba(255, 65, 108, 0.1);
+            display: inline-flex;
+            align-items: center;
+            background: var(--glass-border);
+            border: 1px solid var(--glass-border);
             color: var(--accent);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 20px;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 25px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            box-shadow: 0 4px 15px var(--glass-shadow);
+            animation: fadeInDown 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .hero h1 {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 800;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            letter-spacing: -2px;
             background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
         }
 
         .hero p {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             color: var(--text-muted);
-            margin-bottom: 40px;
+            max-width: 600px;
+            margin: 0 auto 45px;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
         }
 
         .btn-group {
@@ -100,74 +279,110 @@
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
         }
 
         .btn {
-            padding: 12px 28px;
-            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 30px;
+            border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1rem;
-            transition: transform 0.2s, box-shadow 0.2s;
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
         }
 
         .btn-primary {
             background: var(--accent-gradient);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
+            color: #ffffff;
+            box-shadow: 0 8px 30px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 35px var(--accent-glow);
         }
 
         .btn-secondary {
-            background: transparent;
+            background: var(--card-bg);
             color: var(--text-main);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(8px);
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
+        .btn-secondary:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: var(--glass-border);
+            border-color: var(--text-muted);
         }
 
-        /* Stats */
+        /* Stats Grid */
         .stats {
             display: flex;
             justify-content: center;
-            gap: 50px;
-            margin-top: 60px;
+            gap: 60px;
+            margin-top: 80px;
             flex-wrap: wrap;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both;
+        }
+
+        .stat-item {
+            text-align: center;
+            position: relative;
+        }
+
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            right: -30px;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: var(--glass-border);
+        }
+
+        .stat-item:last-child::after {
+            display: none;
         }
 
         .stat-item h3 {
-            font-size: 2.5rem;
-            margin-bottom: 5px;
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 2px;
             color: var(--text-main);
+            letter-spacing: -1px;
         }
 
         .stat-item p {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            font-weight: 600;
         }
 
-        /* Sections */
+        /* Sections General Layout */
         section {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 80px 20px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 100px 24px;
         }
 
         .section-title {
             text-align: center;
             font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
         }
 
         .section-desc {
             text-align: center;
             color: var(--text-muted);
-            max-width: 800px;
-            margin: 0 auto 50px;
+            max-width: 700px;
+            margin: 0 auto 60px;
             font-size: 1.1rem;
         }
 
@@ -175,116 +390,387 @@
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
+            gap: 30px;
         }
 
         .feature-card {
             background: var(--card-bg);
-            padding: 40px 30px;
-            border-radius: 16px;
-            border: 1px solid rgba(255,255,255,0.03);
-            transition: transform 0.3s;
+            padding: 45px 35px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 10px 30px var(--glass-shadow);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: var(--transition-smooth);
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255,255,255,0.1);
+            transform: translateY(-8px);
+            border-color: var(--card-hover-border);
+            box-shadow: 0 15px 40px var(--glass-shadow);
         }
 
-        .feature-icon {
-            font-size: 2rem;
-            margin-bottom: 20px;
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            background: var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            color: var(--accent);
+            transition: var(--transition-smooth);
+        }
+
+        .feature-card:hover .feature-icon-wrapper {
+            background: var(--accent);
+            color: #ffffff;
+            box-shadow: 0 8px 20px var(--accent-glow);
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .feature-icon-wrapper svg {
+            width: 28px;
+            height: 28px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
         .feature-card h3 {
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 15px;
+            font-weight: 700;
         }
 
         .feature-card p {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 0.98rem;
+            line-height: 1.6;
         }
 
         /* Devices List */
         .devices-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            justify-content: center;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
         .device-card {
             background: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
+            padding: 40px 30px;
+            border-radius: 20px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.03);
-            transition: border-color 0.3s;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px var(--glass-shadow);
+            transition: var(--transition-smooth);
         }
         
         .device-card:hover {
+            transform: translateY(-5px);
             border-color: var(--accent);
+            box-shadow: 0 15px 35px var(--accent-glow);
+        }
+
+        .device-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .device-codename {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 25px;
+            background: var(--glass-border);
+            padding: 4px 12px;
+            border-radius: 6px;
+            display: inline-block;
         }
 
         .download-link {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background: rgba(255, 65, 108, 0.1);
-            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            background: var(--glass-border);
+            color: var(--text-main);
             text-decoration: none;
-            border-radius: 6px;
+            border-radius: 10px;
             font-weight: 600;
-            transition: background 0.3s, color 0.3s;
+            border: 1px solid var(--glass-border);
+            transition: var(--transition-smooth);
         }
 
+        .device-card:hover .download-link,
         .download-link:hover {
-            background: var(--accent);
-            color: #fff;
+            background: var(--accent-gradient);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        /* Update Section Banner */
+        .update-banner {
+            background: linear-gradient(180deg, var(--warning-bg) 0%, transparent 100%);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        /* Documentation & Flow Containers */
+        .doc-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Disclaimer Custom Accent Panel */
+        .disclaimer-card {
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 50px;
+            backdrop-filter: blur(8px);
+        }
+
+        .disclaimer-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .disclaimer-item {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .disclaimer-icon {
+            color: #f97316;
+            background: rgba(249, 115, 22, 0.15);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .disclaimer-item strong {
+            color: var(--text-main);
+        }
+
+        /* Styled Action Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 50px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 33px;
+            top: 20px;
+            bottom: 20px;
+            width: 2px;
+            background: var(--glass-border);
+            z-index: 1;
+        }
+
+        .timeline-step {
+            position: relative;
+            padding: 20px 20px 20px 60px;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            margin-bottom: 20px;
+            z-index: 2;
+            backdrop-filter: blur(12px);
+            transition: var(--transition-smooth);
+        }
+
+        .timeline-step:hover {
+            transform: translateX(8px);
+            border-color: var(--card-hover-border);
+            background: var(--glass-border);
+        }
+
+        .step-number {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background: var(--step-num-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+            z-index: 3;
+        }
+
+        .timeline-step:hover .step-number {
+            background: var(--accent-gradient);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .timeline-step a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px dashed var(--accent);
+            transition: var(--transition-smooth);
+        }
+
+        .timeline-step a:hover {
+            color: var(--text-main);
+            border-bottom-color: var(--text-main);
         }
 
         /* Footer */
         footer {
             text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 50px 20px;
+            border-top: 1px solid var(--glass-border);
             color: var(--text-muted);
             font-size: 0.9rem;
+            background: var(--nav-bg);
+        }
+
+        /* Standard Keyframes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsiveness adjustments */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 3.5rem; }
+            .stats { gap: 30px; }
+            .stat-item::after { display: none; }
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .stats { gap: 20px; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero p { font-size: 1.1rem; }
             nav { display: none; }
+            .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+            .timeline::before { left: 23px; }
+            .timeline-step { padding: 15px 15px 15px 50px; }
+            .step-number { left: 5px; width: 30px; height: 30px; font-size: 0.8rem; }
         }
     </style>
 </head>
 <body>
 
+    <!-- Visual Backdrop Blobs -->
+    <div class="blob-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <!-- Floating Navigation Bar -->
     <header>
-        <a href="#" class="logo">ProjectDozG</a>
-        <nav>
-            <a href="#features">Features</a>
-            <a href="#devices">Devices</a>
-        </nav>
+        <a href="#" class="logo">
+            <span class="logo-dot"></span>ProjectDozG
+        </a>
+        <div style="display: flex; align-items: center;">
+            <nav>
+                <a href="#about">About</a>
+                <a href="#features">Features</a>
+                <a href="#devices">Devices</a>
+                <a href="#instructions">Guide</a>
+            </nav>
+            <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <!-- Theme toggle icons dynamically injected -->
+                <svg id="themeIcon"></svg>
+            </button>
+        </div>
     </header>
 
+    <!-- Hero Showcase Header -->
     <div class="hero">
         <span class="badge">ONE UI 8.5 — NOW AVAILABLE</span>
         <h1>ProjectDozG</h1>
         <p>Improve Your Exynos 850 Performance With ProjectDozG</p>
         
         <div class="btn-group">
-            <a href="#devices" class="btn btn-primary">View Devices</a>
-             <a href="#Up" class="btn btn-primary">Check for Updates</a>
-<a href="https://t.me/DaidozBuild" target="_blank" class="btn btn-secondary"> Telegram</a>
+            <a href="#devices" class="btn btn-primary">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+                View Devices
+            </a>
+            <a href="#Up" class="btn btn-secondary">Check for Updates</a>
+            <a href="https://t.me/DaidozBuild" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                Telegram
+            </a>
         </div>
 
-<div class="stats">
+        <div class="stats">
             <div class="stat-item">
                 <h3>221</h3>
-                <p>User</p>
+                <p>Users</p>
             </div>
             <div class="stat-item">
                 <h3>2</h3>
@@ -301,26 +787,36 @@
         </div>
     </div>
 
-    <section id="about">
+    <!-- About Section -->
+    <section id="about" class="reveal">
         <h2 class="section-title">What is ProjectDozG?</h2>
         <p class="section-desc">A custom ROM based on One UI 8.5 is a modified version of Samsung's official software. It retains the core look and feel of One UI but adds new features, performance enhancements, and customizations that aren't available on the standard firmware.</p>
     </section>
 
+    <!-- Key Features Display -->
     <section id="features">
-        <h2 class="section-title">Features</h2>
+        <h2 class="section-title reveal">Key Features</h2>
+        <p class="section-desc reveal">Every aspect of the system has been tuned for raw efficiency and performance.</p>
+        
         <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🛠️</div>
+            <div class="feature-card reveal" style="transition-delay: 0.1s;">
+                <div class="feature-icon-wrapper">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+                </div>
                 <h3>ProjectDozG Core</h3>
                 <p>A powerful in-ROM control center : system monitor , performance modes , CPU/GPU temps , RAM monitor , battery stats , display tuning , and more — all in real time.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
+            <div class="feature-card reveal" style="transition-delay: 0.2s;">
+                <div class="feature-icon-wrapper">
+                    <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                </div>
                 <h3>Neutron+ Kernel</h3>
                 <p>Custom Neutron+ Kernel based on Rsuntk backported source code with ProjectDozG's own DVFS implementation, tuned for maximum battery life, stability, and peak performance.</p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
+            <div class="feature-card reveal" style="transition-delay: 0.3s;">
+                <div class="feature-icon-wrapper">
+                    <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
                 <h3>Extreme Privacy</h3>
                 <p>ATrace, graphics tracing and system logging fully disabled . improve rendering performance with Vulkan . Secure screenshot , absolute privacy mode , and screenshot/recording detection nuked.</p>
             </div>
@@ -329,116 +825,110 @@
 
             <h2 class="section-title">Installation Steps</h2>
 
-<!-- BẮT ĐẦU KHỐI INSTALL STEPS STYLE CYBER NEO -->
-<div style="max-width: 100%; margin: 40px auto; font-family: system-ui, -apple-system, sans-serif; color: #f1f5f9; text-align: left;">
+    <!-- Installation & Setup Guide -->
+    <section id="instructions">
+        <div class="doc-container">
+            
+            <!-- Disclaimer Panel -->
+            <h2 class="section-title reveal">Disclaimer</h2>
+            <div class="disclaimer-card reveal">
+                <ul class="disclaimer-list">
+                    <li class="disclaimer-item">
+                        <span class="disclaimer-icon">✕</span>
+                        <span>Your warranty is now void.</span>
+                    </li>
+                    <li class="disclaimer-item">
+                        <span class="disclaimer-icon">✕</span>
+                        <span>We are not responsible for bricked devices, dead SD cards, thermonuclear war, or you getting fired because the alarm app failed.</span>
+                    </li>
+                    <li class="disclaimer-item">
+                        <span class="disclaimer-icon">✕</span>
+                        <span>Please do some research if you have any concerns about flashing this ROM before proceeding!</span>
+                    </li>
+                    <li class="disclaimer-item">
+                        <span class="disclaimer-icon">✕</span>
+                        <span><strong>YOU</strong> are choosing to make these modifications, and if you point the finger at us for messing up your device, we will laugh at you. <strong>HARD!</strong></span>
+                    </li>
+                </ul>
+            </div>
 
-    <!-- SECTION 1: DISCLAIMER -->
-    <h2 style="font-size: 1.5rem; font-weight: 700; margin: 40px 0 20px 0; color: #ffffff; display: flex; align-items: center; gap: 12px;">
-        <span style="width: 4px; height: 20px; background: #6366f1; border-radius: 4px; display: inline-block;"></span>
-        Disclaimer
-    </h2>
-    <div style="background-color: rgba(249, 115, 22, 0.08); border: 1px solid rgba(249, 115, 22, 0.2); border-radius: 16px; padding: 24px; margin-bottom: 35px;">
-        <ul style="list-style: none; padding: 0; margin: 0;">
-            <li style="margin-bottom: 14px; color: #cbd5e1; font-size: 0.95rem; display: flex; align-items: flex-start;">
-                <span style="color: #f97316; margin-right: 12px; font-weight: bold; flex-shrink: 0; background: rgba(249, 115, 22, 0.15); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem;">✕</span>
-                <span>Your warranty is now void.</span>
-            </li>
-            <li style="margin-bottom: 14px; color: #cbd5e1; font-size: 0.95rem; display: flex; align-items: flex-start;">
-                <span style="color: #f97316; margin-right: 12px; font-weight: bold; flex-shrink: 0; background: rgba(249, 115, 22, 0.15); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem;">✕</span>
-                <span>We are not responsible for bricked devices, dead SD cards, thermonuclear war, or you getting fired because the alarm app failed.</span>
-            </li>
-            <li style="margin-bottom: 14px; color: #cbd5e1; font-size: 0.95rem; display: flex; align-items: flex-start;">
-                <span style="color: #f97316; margin-right: 12px; font-weight: bold; flex-shrink: 0; background: rgba(249, 115, 22, 0.15); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem;">✕</span>
-                <span>Please do some research if you have any concerns about flashing this ROM before flashing it!</span>
-            </li>
-            <li style="margin-bottom: 0; color: #cbd5e1; font-size: 0.95rem; display: flex; align-items: flex-start;">
-                <span style="color: #f97316; margin-right: 12px; font-weight: bold; flex-shrink: 0; background: rgba(249, 115, 22, 0.15); width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem;">✕</span>
-                <span><strong style="color: #ffffff;">YOU</strong> are choosing to make these modifications, and if you point the finger at us for messing up your device, we will laugh at you. <strong style="color: #ffffff;">HARD!</strong></span>
-            </li>
-        </ul>
-    </div>
+            <!-- Bootloader Process Flow -->
+            <h2 class="section-title reveal" style="margin-top: 60px;">Bootloader Unlocking</h2>
+            <p class="section-desc reveal">Follow these core setup requirements strictly to ensure safety during the installation phase.</p>
+            
+            <div class="timeline reveal">
+                <div class="timeline-step">
+                    <div class="step-number">1</div>
+                    Enable Developer options in settings.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">2</div>
+                    Plug the phone to the PC.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">3</div>
+                    Keep pressing the button of volume up and volume down.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">4</div>
+                    Now keep pressed up button to get in Bootloader Unlock Mode.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">5</div>
+                    Press vol + to unlock bootloader.
+                </div>
+            </div>
 
-    <!-- SECTION 2: BOOTLOADER -->
-    <h2 style="font-size: 1.5rem; font-weight: 700; margin: 40px 0 20px 0; color: #ffffff; display: flex; align-items: center; gap: 12px;">
-        <span style="width: 4px; height: 20px; background: #6366f1; border-radius: 4px; display: inline-block;"></span>
-        Bootloader unlocking
-    </h2>
-    <div style="background: #151b2c; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 10px 24px; margin-bottom: 35px;">
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">1</span>
-            Enable Developer options in settings.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">2</span>
-            Plug the phone to the PC.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">3</span>
-            Keep pressing the button of volumen up and volumen down.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">4</span>
-            Now keep pressed up button to get in Bootloader Unlock Mode.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem;">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">5</span>
-            Press vol + to unlock bootloader.
-        </div>
-    </div>
+            <!-- Custom ROM Step-by-Step Flow -->
+            <h2 class="section-title reveal" style="margin-top: 60px;">ROM Install Steps</h2>
+            <p class="section-desc reveal">Flashing instructions prepared for standard recovery steps.</p>
 
-    <!-- SECTION 3: ROM INSTALL -->
-    <h2 style="font-size: 1.5rem; font-weight: 700; margin: 40px 0 20px 0; color: #ffffff; display: flex; align-items: center; gap: 12px;">
-        <span style="width: 4px; height: 20px; background: #6366f1; border-radius: 4px; display: inline-block;"></span>
-        ROM Install Steps
-    </h2>
-    <div style="background: #151b2c; border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 16px; padding: 10px 24px; margin-bottom: 30px;">
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">1</span>
-            Make sure you're on the latest Stock firmware (Check on SamFW).
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">2</span>
-            Make sure your OEM Bootloader is Unlocked.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">3</span>
-            Download OFOX/TWRP, VBmeta.img.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">4</span>
-            Put device in Download Mode.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">5</span>
-            Load OFOX/TWRP TAR file in AP, and under Odin Options, untick Auto Reboot.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">6</span>
-            Force reboot by holding POWER + Vol Down.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">7</span>
-            While on OFOX/TWRP, go to flash <a href="https://drive.google.com/file/d/1B_0JI-pQ-aZNtOMTHRh-KUY9z3CJCjDI/view?usp=drive_link" style="color: #a5b4fc; text-decoration: underline; text-underline-offset: 3px; font-weight: 600;">repartition.zip</a> then reboot recovery and wipe all partitions.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">8</span>
-            Put OFOX/TWRP in Sideload mode.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">9</span>
-            Sideload the ROM from the computer.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem; border-bottom: 1px solid rgba(255, 255, 255, 0.04);">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">10</span>
-            Before restart go to wipe and format data.
-        </div>
-        <div style="padding: 14px 0 14px 45px; position: relative; color: #cbd5e1; font-size: 0.98rem;">
-            <span style="position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; background: #6366f1; color: #ffffff; border-radius: 8px; font-size: 0.85rem; font-weight: 700; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);">11</span>
-            Reboot and enjoy!
-        </div>
-    </div>
-
-</div>
+            <div class="timeline reveal">
+                <div class="timeline-step">
+                    <div class="step-number">1</div>
+                    Make sure you're on the latest Stock firmware (Check on SamFW).
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">2</div>
+                    Make sure your OEM Bootloader is Unlocked.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">3</div>
+                    Download OFOX/TWRP, VBmeta.img.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">4</div>
+                    Put device in Download Mode.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">5</div>
+                    Load OFOX/TWRP TAR file in AP, and under Odin Options, untick Auto Reboot.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">6</div>
+                    Force reboot by holding POWER + Vol Down.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">7</div>
+                    While on OFOX/TWRP, go to flash <a href="https://drive.google.com/file/d/1B_0JI-pQ-aZNtOMTHRh-KUY9z3CJCjDI/view?usp=drive_link" target="_blank" rel="noopener noreferrer">repartition.zip</a> then reboot recovery and wipe all partitions.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">8</div>
+                    Put OFOX/TWRP in Sideload mode.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">9</div>
+                    Sideload the ROM from the computer.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">10</div>
+                    Before restart go to wipe and format data.
+                </div>
+                <div class="timeline-step">
+                    <div class="step-number">11</div>
+                    Reboot and enjoy!
+                </div>
+            </div>
 
     <section id="devices">
         <h2 class="section-title">Supported Devices</h2>
@@ -480,6 +970,57 @@
         <p>© 2026 ProjectDozG. All rights reserved.</p>
     </footer>
 
+    <!-- Logic Controller (Theme & Scroll Triggers) -->
+    <script>
+        // Light & Dark Theme Controller
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        
+        const moonIcon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+        const sunIcon = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+                themeIcon.innerHTML = savedTheme === 'dark' ? sunIcon : moonIcon;
+            } else {
+                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const activeTheme = systemPrefersDark ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', activeTheme);
+                themeIcon.innerHTML = activeTheme === 'dark' ? sunIcon : moonIcon;
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            themeIcon.innerHTML = newTheme === 'dark' ? sunIcon : moonIcon;
+        });
+
+        // Initialize theme state on run
+        initTheme();
+
+        // Optimized Intersection Observer for Scroll Motion Reveal
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    // Stop observing once displayed
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        document.querySelectorAll('.reveal').forEach(element => {
+            revealObserver.observe(element);
+        });
+    </script>
 </body>
 </html>
-
