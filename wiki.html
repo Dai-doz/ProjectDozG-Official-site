@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiki — ProjectDozG</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="blob-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <header>
+        <a href="index.html" class="logo">
+            <img src="assets/logo.png" alt="ProjectDozG logo" class="logo-img">
+            <span>ProjectDozG</span>
+        </a>
+        <div style="display: flex; align-items: center;">
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="screenshots.html">Screenshots</a>
+                <a href="devices.html">Devices</a>
+                <a href="guide.html">Guide</a>
+                <a href="wiki.html">Wiki</a>
+                <a href="maintainers.html">Maintainers</a>
+            </nav>
+            <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
+                <svg id="themeIcon"></svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+    <section id="wiki" style="padding-bottom: 60px;">
+        <h2 class="section-title">ProjectDozG Wiki</h2>
+        <p class="section-desc">Welcome to ProjectDozG Wiki useful information or stuff you may need is here</p>
+
+        <div class="version-tabs" role="tablist" aria-label="Wiki sections">
+            <button type="button" class="version-tab active" data-tab="a12s">Galaxy A12s</button>
+            <button type="button" class="version-tab" data-tab="a22">Galaxy A22</button>
+            <button type="button" class="version-tab" data-tab="integrity">Play Integrity</button>
+        </div>
+
+        <!-- TAB 1: GALAXY A12S -->
+        <div id="tab-a12s" class="wiki-panel">
+            <div class="doc-container">
+                <h2 class="section-title">Galaxy A12s (SM-A127F/M)</h2>
+                <p class="section-desc">Exynos 850 · Maintainer: Dai-doz</p>
+
+                <h3 class="section-title" style="font-size: 1.8rem;">Unlock Bootloader</h3>
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <div class="step-number">1</div>
+                        Go to <strong>Settings → About phone → Software information</strong> and tap <strong>Build number</strong> 7 times.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">2</div>
+                        Open <strong>Settings → Developer options</strong> and enable <strong>OEM unlocking</strong> and <strong>USB debugging</strong>.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">3</div>
+                        Power off the phone, hold <strong>Volume Up + Volume Down</strong>, and plug in the USB cable to your PC.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">4</div>
+                        On the warning screen, <strong>hold Volume Up</strong> until the unlock menu appears, then press <strong>Volume Up</strong> to confirm.
+                        <img src="assets/tutorials/unlock-bootloader.jpg" alt="Galaxy A12s Unlock Bootloader Screen" style="width: 100%; max-width: 480px; border-radius: 12px; margin-top: 14px; display: block; border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.8rem; margin-top: 50px;">Flash with Odin</h3>
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <div class="step-number">1</div>
+                        Enter <strong>Download Mode</strong> on the Galaxy A12s and open <strong>Odin</strong> on your PC.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">2</div>
+                        Load recovery <code>.tar</code> into <strong>AP</strong> and <code>Vbmeta.tar</code> into <strong>USERDATA</strong>. Under <strong>Options</strong>, uncheck <strong>Auto Reboot</strong>.
+                        <img src="assets/tutorials/odin-flash.jpg" alt="Odin Flash Tutorial for Galaxy A12s" style="width: 100%; max-width: 560px; border-radius: 12px; margin-top: 14px; display: block; border: 1px solid var(--glass-border);">
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">3</div>
+                        Click <strong>Start</strong>, wait for <strong>PASS!</strong>, then hold <strong>Power + Volume Down</strong> and switch to <strong>Power + Volume Up</strong> as the screen turns black to boot recovery.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">4</div>
+                        Flash <code>repartition.zip</code>, reboot recovery, format data, and sideload the ProjectDozG A12s ROM.
+                    </div>
+                </div>
+
+                <div class="wiki-card" style="margin-top: 50px;">
+                    <div>
+                        <h3>Extra Stuff — Galaxy A12s</h3>
+                        <p>TWRP recovery and required flashing files for Galaxy A12s.</p>
+                    </div>
+                    <div class="btn-group" style="justify-content: flex-start;">
+                        <a href="https://twrp.me/samsung/a12s.html" target="_blank" rel="noopener noreferrer" class="btn btn-primary">TWRP Link</a>
+                        <a href="https://drive.google.com/file/d/1DROsPQb2gIuNgD0F-1r7r7Ju30OrwJkN/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Vbmeta.tar</a>
+                        <a href="https://drive.google.com/file/d/1B_0JI-pQ-aZNtOMTHRh-KUY9z3CJCjDI/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">repartition.zip</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: GALAXY A22 -->
+        <div id="tab-a22" class="wiki-panel" style="display: none;">
+            <div class="doc-container">
+                <h2 class="section-title">Galaxy A22 (SM-A225F/M)</h2>
+                <p class="section-desc">MediaTek Helio G80 (4G) · Maintainer: Lucasz</p>
+
+                <h3 class="section-title" style="font-size: 1.8rem;">Unlock Bootloader</h3>
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <div class="step-number">1</div>
+                        Go to <strong>Settings → About phone → Software information</strong> and tap <strong>Build number</strong> 7 times.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">2</div>
+                        Open <strong>Settings → Developer options</strong> and enable <strong>OEM unlocking</strong> and <strong>USB debugging</strong>.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">3</div>
+                        Power off the phone, hold <strong>Volume Up + Volume Down</strong>, and plug in the USB cable to your PC.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">4</div>
+                        On the warning screen, <strong>hold Volume Up</strong> until the unlock menu appears, then press <strong>Volume Up</strong> to confirm.
+                        <img src="assets/tutorials/unlock-bootloader.jpg" alt="Galaxy A22 Unlock Bootloader Screen" style="width: 100%; max-width: 480px; border-radius: 12px; margin-top: 14px; display: block; border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.8rem; margin-top: 50px;">Flash with Odin</h3>
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <div class="step-number">1</div>
+                        Enter <strong>Download Mode</strong> on the Galaxy A22 and open <strong>Odin</strong> on your PC.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">2</div>
+                        Load recovery <code>.tar</code> into <strong>AP</strong> and <code>Vbmeta.tar</code> into <strong>USERDATA</strong>. Under <strong>Options</strong>, uncheck <strong>Auto Reboot</strong>.
+                        <img src="assets/tutorials/odin-flash.jpg" alt="Odin Flash Tutorial for Galaxy A22" style="width: 100%; max-width: 560px; border-radius: 12px; margin-top: 14px; display: block; border: 1px solid var(--glass-border);">
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">3</div>
+                        Click <strong>Start</strong>, wait for <strong>PASS!</strong>, then hold <strong>Power + Volume Down</strong> and switch to <strong>Power + Volume Up</strong> as the screen turns black to boot recovery.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">4</div>
+                        Flash <code>repartition.zip</code>, reboot recovery, format data, and sideload the ProjectDozG A22 ROM.
+                    </div>
+                </div>
+
+                <div class="wiki-card" style="margin-top: 50px;">
+                    <div>
+                        <h3>Extra Stuff — Galaxy A22</h3>
+                        <p>TWRP recovery and required flashing files for Galaxy A22.</p>
+                    </div>
+                    <div class="btn-group" style="justify-content: flex-start;">
+                        <a href="https://twrp.me/Devices/Samsung/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">TWRP Link</a>
+                        <a href="https://drive.google.com/file/d/1DROsPQb2gIuNgD0F-1r7r7Ju30OrwJkN/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Vbmeta.tar</a>
+                        <a href="https://drive.google.com/file/d/1B_0JI-pQ-aZNtOMTHRh-KUY9z3CJCjDI/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">repartition.zip</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: PLAY INTEGRITY -->
+        <div id="tab-integrity" class="wiki-panel" style="display: none;">
+            <div class="doc-container">
+                <h2 class="section-title">Play Integrity Tutorial</h2>
+                <p class="section-desc">Set up Play Integrity verdicts on ProjectDozG for banking apps, Google Wallet, and RCS.</p>
+
+                <div class="info-grid" style="margin-bottom: 40px;">
+                    <div class="info-card">
+                        <div class="info-label">Verdict 1</div>
+                        <div class="info-value">BASIC</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">Standard app and Play Store integrity check.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Verdict 2</div>
+                        <div class="info-value">DEVICE</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">Needed for Google Wallet and many banking apps.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-label">Verdict 3</div>
+                        <div class="info-value">STRONG</div>
+                        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 8px;">Requires a valid hardware keybox with TrickyStore.</p>
+                    </div>
+                </div>
+
+                <h3 class="section-title" style="font-size: 1.8rem;">Setup Steps</h3>
+                <div class="timeline">
+                    <div class="timeline-step">
+                        <div class="step-number">1</div>
+                        Ensure your root solution (<strong>Magisk</strong>, <strong>KernelSU</strong>, or <strong>APatch</strong>) is installed and <strong>Zygisk</strong> (or <strong>Zygisk Next</strong>) is enabled.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">2</div>
+                        Flash the latest <strong>PlayIntegrityFork</strong> module in your root manager.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">3</div>
+                        Optional (for <strong>STRONG</strong>): Install <strong>TrickyStore</strong>, place a valid <code>keybox.xml</code> in <code>/data/adb/tricky_store/</code>, and list target apps in <code>target.txt</code>.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">4</div>
+                        Add <strong>Google Play Services</strong>, <strong>Google Play Store</strong>, and banking apps to your DenyList / hide list as needed, then reboot.
+                    </div>
+                    <div class="timeline-step">
+                        <div class="step-number">5</div>
+                        Tap <strong>Action</strong> on PlayIntegrityFork to refresh the fingerprint, clear Google Play Services/Store cache if needed, and test with a Play Integrity checker app.
+                    </div>
+                </div>
+
+                <div class="wiki-card" style="margin-top: 50px;">
+                    <div>
+                        <h3>Extra Stuff — Play Integrity</h3>
+                        <p>Official module repositories for Play Integrity and Zygisk.</p>
+                    </div>
+                    <div class="btn-group" style="justify-content: flex-start;">
+                        <a href="https://github.com/osm0sis/PlayIntegrityFork/releases" target="_blank" rel="noopener noreferrer" class="btn btn-primary">PlayIntegrityFork</a>
+                        <a href="https://github.com/Dr-TSNG/ZygiskNext/releases" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Zygisk Next</a>
+                        <a href="https://github.com/5ec1cff/TrickyStore/releases" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">TrickyStore</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    </main>
+
+    <footer>
+        <p>© 2026 ProjectDozG. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        (function () {
+            const buttons = document.querySelectorAll('.version-tab[data-tab]');
+            const panels = {
+                a12s: document.getElementById('tab-a12s'),
+                a22: document.getElementById('tab-a22'),
+                integrity: document.getElementById('tab-integrity')
+            };
+
+            function selectTab(name) {
+                const activeKey = panels[name] ? name : 'a12s';
+                buttons.forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.tab === activeKey);
+                });
+                Object.entries(panels).forEach(([key, panel]) => {
+                    if (!panel) return;
+                    panel.style.display = key === activeKey ? 'block' : 'none';
+                });
+            }
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => selectTab(btn.dataset.tab));
+            });
+
+            selectTab('a12s');
+        })();
+    </script>
+</body>
+</html>
