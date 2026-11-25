@@ -3,159 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="How to unlock the bootloader and install ProjectDozG.">
     <title>Install Guide — ProjectDozG</title>
+    <link rel="icon" href="assets/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){}</script>
+    <noscript><style>.reveal { opacity: 1; }</style></noscript>
 </head>
 <body>
 
-    <div class="blob-container">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
+    <div class="space" aria-hidden="true">
+        <canvas id="space"></canvas>
     </div>
 
     <header>
-         <a href="index.html" class="logo">
-    <img src="assets/logo.png" alt="ProjectDozG logo" class="logo-img">
-    <span>ProjectDozG</span>
-</a>
-        <div style="display: flex; align-items: center;">
-            <nav>
+        <a href="index.html" class="logo">
+            <img src="assets/logo.png" alt="" class="logo-img" width="40" height="40">
+            <span>ProjectDozG</span>
+        </a>
+        <div class="header-end">
+            <nav aria-label="Main">
                 <a href="index.html">Home</a>
                 <a href="screenshots.html">Screenshots</a>
                 <a href="devices.html">Devices</a>
-                <a href="guide.html">Guide</a>
+                <a href="guide.html" class="active" aria-current="page">Guide</a>
                 <a href="wiki.html">Wiki</a>
                 <a href="maintainers.html">Maintainers</a>
             </nav>
-            <button class="theme-toggle-btn" id="themeToggle" aria-label="Toggle Theme">
-                <!-- Theme toggle icons dynamically injected -->
-                <svg id="themeIcon"></svg>
+            <button type="button" class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
+                <svg id="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
             </button>
         </div>
     </header>
 
-    
-
     <main>
-    <section id="instructions">
-        <div class="doc-container">
-            
-            <!-- Disclaimer Panel -->
-            <h2 class="section-title reveal">Disclaimer</h2>
-            <div class="disclaimer-card reveal">
-                <ul class="disclaimer-list">
-                    <li class="disclaimer-item">
-                        <span class="disclaimer-icon">✕</span>
-                        <span>Your warranty is now void.</span>
-                    </li>
-                    <li class="disclaimer-item">
-                        <span class="disclaimer-icon">✕</span>
-                        <span>We are not responsible for bricked devices, dead SD cards, thermonuclear war, or you getting fired because the alarm app failed.</span>
-                    </li>
-                    <li class="disclaimer-item">
-                        <span class="disclaimer-icon">✕</span>
-                        <span>Please do some research if you have any concerns about flashing this ROM before proceeding!</span>
-                    </li>
-                    <li class="disclaimer-item">
-                        <span class="disclaimer-icon">✕</span>
-                        <span><strong>YOU</strong> are choosing to make these modifications, and if you point the finger at us for messing up your device, we will laugh at you. <strong>HARD!</strong></span>
-                    </li>
-                </ul>
+        <section id="instructions">
+            <div class="doc-container">
+
+                <h2 class="section-title reveal">Disclaimer</h2>
+                <div class="disclaimer-card reveal">
+                    <ul class="disclaimer-list">
+                        <li class="disclaimer-item">
+                            <span class="disclaimer-icon" aria-hidden="true">✕</span>
+                            <span>Your warranty is now void.</span>
+                        </li>
+                        <li class="disclaimer-item">
+                            <span class="disclaimer-icon" aria-hidden="true">✕</span>
+                            <span>We are not responsible for bricked devices, dead SD cards, thermonuclear war, or you getting fired because the alarm app failed.</span>
+                        </li>
+                        <li class="disclaimer-item">
+                            <span class="disclaimer-icon" aria-hidden="true">✕</span>
+                            <span>Please do some research if you have any concerns about flashing this ROM before proceeding!</span>
+                        </li>
+                        <li class="disclaimer-item">
+                            <span class="disclaimer-icon" aria-hidden="true">✕</span>
+                            <span><strong>YOU</strong> are choosing to make these modifications, and if you point the finger at us for messing up your device, we will laugh at you. <strong>HARD!</strong></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <h2 class="section-title reveal">Bootloader Unlocking</h2>
+                <p class="section-desc reveal">Follow these core setup requirements strictly to ensure safety during the installation phase.</p>
+                <ol class="timeline reveal">
+                    <li class="timeline-step"><span class="step-number">1</span>Enable Developer options in settings.</li>
+                    <li class="timeline-step"><span class="step-number">2</span>Plug the phone to the PC.</li>
+                    <li class="timeline-step"><span class="step-number">3</span>Keep pressing the button of volume up and volume down.</li>
+                    <li class="timeline-step"><span class="step-number">4</span>Now keep pressed up button to get in Bootloader Unlock Mode.</li>
+                    <li class="timeline-step"><span class="step-number">5</span>Press vol + to unlock bootloader.</li>
+                </ol>
+
+                <h2 class="section-title reveal">ROM Install Steps</h2>
+                <p class="section-desc reveal">Flashing instructions prepared for standard recovery steps.</p>
+                <ol class="timeline reveal">
+                    <li class="timeline-step"><span class="step-number">1</span>Make sure you're on the latest Stock firmware (Check on SamFW).</li>
+                    <li class="timeline-step"><span class="step-number">2</span>Make sure your OEM Bootloader is Unlocked.</li>
+                    <li class="timeline-step"><span class="step-number">3</span>Download OFOX/TWRP on Official site . Download <a href="https://drive.google.com/file/d/1DROsPQb2gIuNgD0F-1r7r7Ju30OrwJkN/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Vbmeta.tar</a> .</li>
+                    <li class="timeline-step"><span class="step-number">4</span>Put device in Download Mode.</li>
+                    <li class="timeline-step"><span class="step-number">5</span>Load OFOX/TWRP TAR file in AP, and under Odin Options, untick Auto Reboot.</li>
+                    <li class="timeline-step"><span class="step-number">6</span>Force reboot by holding POWER + Vol Down.</li>
+                    <li class="timeline-step"><span class="step-number">7</span>While on OFOX/TWRP, go to flash <a href="https://drive.google.com/file/d/1B_0JI-pQ-aZNtOMTHRh-KUY9z3CJCjDI/view?usp=drive_link" target="_blank" rel="noopener noreferrer">repartition.zip</a> then reboot recovery and wipe all partitions.</li>
+                    <li class="timeline-step"><span class="step-number">8</span>Put OFOX/TWRP in Sideload mode.</li>
+                    <li class="timeline-step"><span class="step-number">9</span>Sideload the ROM from the computer.</li>
+                    <li class="timeline-step"><span class="step-number">10</span>Before restart go to wipe and format data.</li>
+                    <li class="timeline-step"><span class="step-number">11</span>Reboot and enjoy!</li>
+                </ol>
+
             </div>
-
-            <!-- Bootloader Process Flow -->
-            <h2 class="section-title reveal" style="margin-top: 60px;">Bootloader Unlocking</h2>
-            <p class="section-desc reveal">Follow these core setup requirements strictly to ensure safety during the installation phase.</p>
-            
-            <div class="timeline reveal">
-                <div class="timeline-step">
-                    <div class="step-number">1</div>
-                    Enable Developer options in settings.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">2</div>
-                    Plug the phone to the PC.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">3</div>
-                    Keep pressing the button of volume up and volume down.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">4</div>
-                    Now keep pressed up button to get in Bootloader Unlock Mode.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">5</div>
-                    Press vol + to unlock bootloader.
-                </div>
-            </div>
-
-            <!-- Custom ROM Step-by-Step Flow -->
-            <h2 class="section-title reveal" style="margin-top: 60px;">ROM Install Steps</h2>
-            <p class="section-desc reveal">Flashing instructions prepared for standard recovery steps.</p>
-
-            <div class="timeline reveal">
-                <div class="timeline-step">
-                    <div class="step-number">1</div>
-                    Make sure you're on the latest Stock firmware (Check on SamFW).
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">2</div>
-                    Make sure your OEM Bootloader is Unlocked.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">3</div>
-                    Download OFOX/TWRP on Official site . Download <a href="https://drive.google.com/file/d/1DROsPQb2gIuNgD0F-1r7r7Ju30OrwJkN/view?usp=drive_link" target="_blank" rel="noopener noreferrer">Vbmeta.tar</a> .
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">4</div>
-                    Put device in Download Mode.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">5</div>
-                    Load OFOX/TWRP TAR file in AP, and under Odin Options, untick Auto Reboot.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">6</div>
-                    Force reboot by holding POWER + Vol Down.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">7</div>
-                    While on OFOX/TWRP, go to flash <a href="https://drive.google.com/file/d/1B_0JI-pQ-aZNtOMTHRh-KUY9z3CJCjDI/view?usp=drive_link" target="_blank" rel="noopener noreferrer">repartition.zip</a> then reboot recovery and wipe all partitions.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">8</div>
-                    Put OFOX/TWRP in Sideload mode.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">9</div>
-                    Sideload the ROM from the computer.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">10</div>
-                    Before restart go to wipe and format data.
-                </div>
-                <div class="timeline-step">
-                    <div class="step-number">11</div>
-                    Reboot and enjoy!
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    
+        </section>
     </main>
 
     <footer>
         <p>© 2026 ProjectDozG. All rights reserved.</p>
     </footer>
 
-    
-
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
+    <script src="space.js" defer></script>
 </body>
 </html>

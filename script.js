@@ -1,113 +1,69 @@
-// Light & Dark Theme Controller
-        const themeToggleBtn = document.getElementById('themeToggle');
-        const themeIcon = document.getElementById('themeIcon');
-        
-        const moonIcon = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
-        const sunIcon = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+/* ProjectDozG — shared behaviour: theme toggle, scroll reveal, avatar fallback.
+   Page-specific code lives in devices.js, screenshots.js and wiki.js. */
+(() => {
+    'use strict';
 
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.documentElement.setAttribute('data-theme', savedTheme);
-                themeIcon.innerHTML = savedTheme === 'dark' ? sunIcon : moonIcon;
-            } else {
-                const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                const activeTheme = systemPrefersDark ? 'dark' : 'light';
-                document.documentElement.setAttribute('data-theme', activeTheme);
-                themeIcon.innerHTML = activeTheme === 'dark' ? sunIcon : moonIcon;
-            }
-        }
+    /* ---- Theme (the saved theme is applied earlier by a tiny inline script in <head>) ---- */
+    const root = document.documentElement;
+    const toggle = document.getElementById('themeToggle');
+    const icon = document.getElementById('themeIcon');
 
-        themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            themeIcon.innerHTML = newTheme === 'dark' ? sunIcon : moonIcon;
+    const ICONS = {
+        // Shown while dark: click for light
+        dark: '<circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>',
+        // Shown while light: click for dark
+        light: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>'
+    };
+
+    function applyTheme(theme) {
+        root.dataset.theme = theme;
+        if (icon) icon.innerHTML = ICONS[theme];
+        if (toggle) toggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
+    }
+
+    applyTheme(root.dataset.theme === 'light' ? 'light' : 'dark');
+
+    if (toggle) {
+        toggle.addEventListener('click', () => {
+            const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+            applyTheme(next);
+            try { localStorage.setItem('theme', next); } catch (e) { /* storage blocked: ignore */ }
         });
+    }
 
-        // Initialize theme state on run
-        initTheme();
+    /* ---- Scroll reveal ---- */
+    const revealEls = document.querySelectorAll('.reveal');
 
-        // Optimized Intersection Observer for Scroll Motion Reveal
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    // Stop observing once displayed
-                    revealObserver.unobserve(entry.target);
-                }
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
             });
-        }, {
-            threshold: 0.15,
-            rootMargin: '0px 0px -50px 0px'
-        });
+        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
 
-        document.querySelectorAll('.reveal').forEach(element => {
-            revealObserver.observe(element);
-        });
+        revealEls.forEach((el) => observer.observe(el));
+    } else {
+        revealEls.forEach((el) => el.classList.add('active'));
+    }
 
-        // Screenshot lightbox
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImg = document.getElementById('lightboxImg');
-        // Delegated so slots created later (version tabs) work too
-        if (lightbox) document.addEventListener('click', e => {
-            const slot = e.target.closest('.shot-slot');
-            if (!slot) return;
-            const img = slot.querySelector('img');
-            if (!img) return;
-            lightboxImg.src = img.src;
-            lightbox.classList.add('open');
-        });
-        if (lightbox) lightbox.addEventListener('click', () => lightbox.classList.remove('open'));
-        document.addEventListener('keydown', e => {
-            if (e.key === 'Escape' && lightbox) lightbox.classList.remove('open');
-        });
-    
-// Highlight current page in nav
-(function () {
-    const page = location.pathname.split('/').pop() || 'index.html';
-    document.querySelectorAll('nav a').forEach(a => {
-        if (a.getAttribute('href') === page) a.classList.add('active');
+    /* ---- Maintainer avatars: fall back to the first letter if the image is missing ---- */
+    function avatarFallback(img) {
+        const initial = document.createElement('div');
+        initial.className = 'avatar';
+        initial.setAttribute('role', 'img');
+        initial.setAttribute('aria-label', img.alt);
+        initial.textContent = (img.alt || '?').trim().charAt(0).toUpperCase();
+        img.replaceWith(initial);
+    }
+
+    document.addEventListener('error', (e) => {
+        if (e.target instanceof HTMLImageElement && e.target.matches('img.avatar')) avatarFallback(e.target);
+    }, true);
+
+    // Images that already failed before this script ran
+    document.querySelectorAll('img.avatar').forEach((img) => {
+        if (img.complete && img.naturalWidth === 0) avatarFallback(img);
     });
 })();
-
-// Build picker for device cards
-document.querySelectorAll('.device-card[data-builds]').forEach(card => {
-    let builds = [];
-    try { builds = JSON.parse(card.dataset.builds); } catch (e) {}
-    const select = card.querySelector('.build-select');
-    const info = card.querySelector('.build-info');
-    const link = card.querySelector('.download-link');
-    const text = card.querySelector('.download-text');
-
-    if (!builds.length) {
-        select.innerHTML = '<option>No builds yet</option>';
-        select.disabled = true;
-    } else {
-        builds.forEach((b, i) => {
-            const o = document.createElement('option');
-            o.value = i;
-            o.textContent = b.label;
-            select.appendChild(o);
-        });
-    }
-
-    function update() {
-        const b = builds[select.value || 0];
-        if (b && b.url) {
-            link.href = b.url;
-            link.classList.remove('disabled');
-            text.textContent = 'Download ROM';
-            info.textContent = b.info || '';
-        } else {
-            link.removeAttribute('href');
-            link.classList.add('disabled');
-            text.textContent = 'Coming soon';
-            info.textContent = b ? (b.info || '') : '';
-        }
-    }
-    select.addEventListener('change', update);
-    update();
-});
