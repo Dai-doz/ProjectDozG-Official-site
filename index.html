@@ -42,6 +42,7 @@
     <main>
         <div class="hero">
             <span class="badge">ONE UI 9.0 — NOW AVAILABLE</span>
+            <div class="welcome" aria-hidden="true"><span id="welcomeWord" lang="en">Welcome</span></div>
             <h1>ProjectDozG</h1>
             <p>Improve Your Devices Performance With ProjectDozG</p>
 
@@ -104,6 +105,48 @@
                 </div>
             </div>
         </section>
+        <section id="bugs">
+            <h2 class="section-title reveal">Report a Bug</h2>
+            <p class="section-desc reveal">Found something broken? Fill in the details below and we'll look into it.</p>
+
+            <form class="bug-form reveal" id="bugForm" novalidate>
+                <div class="field-row">
+                    <div class="field">
+                        <label class="build-label" for="bugDevice">Device</label>
+                        <select class="field-input" id="bugDevice" required>
+                            <option>Galaxy A12s</option>
+                            <option>Galaxy A22</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label class="build-label" for="bugVersion">ROM version</label>
+                        <select class="field-input" id="bugVersion" required>
+                            <option>V4.1 [Beta]</option>
+                            <option>V3.5.3</option>
+                            <option>Beta V3.1</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="build-label" for="bugEmail">Your email <span class="optional">(optional)</span></label>
+                    <input class="field-input" type="email" id="bugEmail" autocomplete="email" placeholder="So we can reply to you">
+                </div>
+
+                <div class="field">
+                    <label class="build-label" for="bugDetails">Tell us more at here</label>
+                    <textarea class="field-input" id="bugDetails" rows="6" required placeholder="What happened? What did you expect? Steps to reproduce..."></textarea>
+                </div>
+
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-primary">Send by email</button>
+                    <button type="button" class="btn btn-secondary" id="bugCopy">Copy report</button>
+                </div>
+                <p class="form-note" id="bugNote" aria-live="polite">This opens your email app with the report filled in. No email app? Use Copy report and send it on <a href="https://t.me/DaidozBuild" target="_blank" rel="noopener noreferrer">Telegram</a>.</p>
+            </form>
+        </section>
     </main>
 
     <footer>
@@ -112,5 +155,6 @@
 
     <script src="script.js" defer></script>
     <script src="space.js" defer></script>
+    <script src="home.js" defer></script>
 </body>
 </html>

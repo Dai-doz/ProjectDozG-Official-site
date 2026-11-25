@@ -8,7 +8,13 @@
 /* 1. Tokens ---------------------------------------------------------------- */
 :root {
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
-    --transition-smooth: all 0.4s var(--ease);
+    --transition-smooth:
+        transform 0.4s var(--ease),
+        background 0.4s var(--ease),
+        border-color 0.4s var(--ease),
+        box-shadow 0.4s var(--ease),
+        color 0.4s var(--ease),
+        opacity 0.4s var(--ease);
 
     --bg-color: #08090d;
     --card-bg: rgba(21, 23, 30, 0.6);
@@ -310,6 +316,12 @@ nav a.active {
     border-color: var(--text-muted);
 }
 
+/* A button whose href is still empty (wiki.js marks it aria-disabled) */
+.btn[aria-disabled="true"] {
+    opacity: 0.55;
+    pointer-events: none;
+}
+
 /* 7. Hero ------------------------------------------------------------------ */
 .hero {
     position: relative;
@@ -344,7 +356,9 @@ nav a.active {
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -2px;
-    animation: fadeInUp 1s var(--ease) 0.1s both;
+    background-image: linear-gradient(100deg, var(--accent) 0%, #ff4b2b 38%, #ff9a5a 55%, var(--accent) 100%);
+    background-size: 220% 100%;
+    animation: titleIn 1.5s var(--ease) 0.35s both, titleShine 7s ease-in-out 2s infinite alternate;
 }
 
 .hero p {
@@ -352,11 +366,11 @@ nav a.active {
     margin: 0 auto 45px;
     color: var(--text-muted);
     font-size: 1.3rem;
-    animation: fadeInUp 1s var(--ease) 0.2s both;
+    animation: fadeInUp 1s var(--ease) 0.8s both;
 }
 
 .hero .btn-group {
-    animation: fadeInUp 1s var(--ease) 0.3s both;
+    animation: fadeInUp 1s var(--ease) 1s both;
 }
 
 .stats {
@@ -365,7 +379,7 @@ nav a.active {
     justify-content: center;
     gap: 60px;
     margin-top: 80px;
-    animation: fadeInUp 1s var(--ease) 0.4s both;
+    animation: fadeInUp 1s var(--ease) 1.2s both;
 }
 
 .stat-item {
@@ -399,6 +413,25 @@ nav a.active {
     letter-spacing: 1.5px;
     text-transform: uppercase;
     animation: none;
+}
+
+/* Cycling "Welcome" line above the title (see home.js) */
+.welcome {
+    height: 2.4rem;
+    margin-bottom: 6px;
+    color: var(--text-muted);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.welcome span {
+    display: inline-block;
+    animation: wordIn 0.9s var(--ease) 0.2s both;
+}
+
+.welcome span.out {
+    animation: wordOut 0.45s ease-in both;
 }
 
 /* 8. Cards ----------------------------------------------------------------- */
@@ -700,6 +733,17 @@ nav a.active {
     font-size: 0.85rem;
 }
 
+.maintainer-card .about {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--glass-border);
+}
+
+.maintainer-card .about p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
 .m-link {
     display: inline-block;
     margin-top: 14px;
@@ -735,6 +779,91 @@ nav a.active {
 
 .wiki-card .btn-group {
     justify-content: flex-start;
+}
+
+/* Bug report form */
+.bug-form {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 32px 35px;
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    background: var(--card-bg);
+    box-shadow: 0 10px 30px var(--glass-shadow);
+}
+
+.field-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    gap: 0 20px;
+}
+
+.field {
+    margin-bottom: 18px;
+}
+
+.field .build-label {
+    margin-top: 0;
+}
+
+.optional {
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.field-input {
+    display: block;
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--glass-border);
+    border-radius: 10px;
+    background: var(--glass-border);
+    color: var(--text-main);
+    font: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.3s var(--ease);
+}
+
+.field-input:focus {
+    border-color: var(--accent);
+    outline: none;
+}
+
+.field-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.8;
+}
+
+textarea.field-input {
+    min-height: 130px;
+    font-family: inherit;
+    resize: vertical;
+}
+
+select.field-input {
+    cursor: pointer;
+}
+
+select.field-input option {
+    background: var(--bg-color);
+    color: var(--text-main);
+}
+
+.field-input.invalid {
+    border-color: #f97316;
+}
+
+.form-note {
+    margin-top: 16px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.form-note a {
+    color: var(--accent);
+    font-weight: 600;
 }
 
 /* 9. Screenshots ----------------------------------------------------------- */
@@ -783,19 +912,50 @@ nav a.active {
     gap: 20px;
 }
 
+/* Galaxy A22-style phone: thin bezel with a slightly deeper chin, Infinity-U (waterdrop) notch,
+   and the volume/power keys on the right edge. The screenshot is shown whole (contain), never cropped. */
 .shot-slot {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: 9 / 19.5;
-    overflow: hidden;
-    border: 1px solid var(--glass-border);
-    border-radius: 22px;
-    background: var(--card-bg);
-    box-shadow: 0 10px 30px var(--glass-shadow);
-    color: var(--text-muted);
+    aspect-ratio: 9 / 20;
+    padding: 5px 4px 20px;
+    border: 1.5px solid #2d303c;
+    border-radius: 28px;
+    background: #07070a;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06), 0 10px 30px var(--glass-shadow);
+    color: #94a3b8;
     cursor: default;
     transition: var(--transition-smooth);
+}
+
+/* Infinity-U notch: a U that hangs from the top edge of the screen, with the front camera inside */
+.shot-slot::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    z-index: 1;
+    width: 24px;
+    height: 19px;
+    border-radius: 0 0 18px 18px;
+    background: radial-gradient(circle at 50% 58%, #1b2440 0 2.6px, #0a0d18 3px 4.2px, transparent 4.6px), #000;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+/* Side keys: volume rocker above, power below */
+.shot-slot::before {
+    content: '';
+    position: absolute;
+    top: 17%;
+    right: -4px;
+    width: 3px;
+    height: 17%;
+    border-radius: 0 2px 2px 0;
+    background: linear-gradient(#2d303c 0 62%, transparent 62% 76%, #2d303c 76% 100%);
+    pointer-events: none;
 }
 
 .shot-slot:not(:disabled) {
@@ -812,7 +972,9 @@ nav a.active {
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    border-radius: 23px 23px 18px 18px;
+    background: #000;
+    object-fit: contain;
 }
 
 .shot-placeholder {
@@ -978,6 +1140,10 @@ nav a.active {
     display: none;
 }
 
+.wiki-panel:not([hidden]) > .doc-container {
+    animation: fadeInUp 0.7s var(--ease) both;   /* replays each time a tab is opened */
+}
+
 .tutorial-img {
     display: block;
     width: 100%;
@@ -985,6 +1151,28 @@ nav a.active {
     margin-top: 14px;
     border: 1px solid var(--glass-border);
     border-radius: 12px;
+}
+
+.chip-figure {
+    margin: -24px 0 40px;
+    text-align: center;
+}
+
+.chip-figure img {
+    display: block;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 10px;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+.chip-figure figcaption {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
 .spec-grid {
@@ -1033,6 +1221,26 @@ footer {
     to   { opacity: 1; transform: translateY(0); }
 }
 
+@keyframes titleIn {
+    from { opacity: 0; filter: blur(18px); transform: translateY(24px) scale(0.92); }
+    to   { opacity: 1; filter: blur(0);    transform: none; }
+}
+
+@keyframes titleShine {
+    from { background-position: 0% 50%; }
+    to   { background-position: 100% 50%; }
+}
+
+@keyframes wordIn {
+    from { opacity: 0; filter: blur(12px); transform: translateY(12px) scale(0.96); }
+    to   { opacity: 1; filter: blur(0);    transform: none; }
+}
+
+@keyframes wordOut {
+    from { opacity: 1; filter: blur(0);    transform: none; }
+    to   { opacity: 0; filter: blur(12px); transform: translateY(-12px) scale(1.04); }
+}
+
 /* Scroll reveal. script.js adds .active when the element enters the viewport.
    Uses an animation (not a transition) so --delay never slows down hover effects. */
 .reveal {
@@ -1052,7 +1260,9 @@ footer {
     .hero h1,
     .hero p,
     .hero .btn-group,
-    .stats { animation: none; }
+    .stats,
+    .welcome span,
+    .wiki-panel:not([hidden]) > .doc-container { animation: none; }
 }
 
 /* 14. Responsive ----------------------------------------------------------- */
@@ -1101,4 +1311,5 @@ footer {
     .timeline-step { padding: 15px 15px 15px 50px; }
     .step-number { left: 5px; width: 30px; height: 30px; font-size: 0.8rem; }
     .wiki-card { padding: 24px; }
+    .bug-form { padding: 24px 20px; }
 }

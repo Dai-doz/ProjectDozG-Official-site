@@ -157,9 +157,9 @@
 
         const rgb = isLight ? '99, 102, 241' : '255, 255, 255';
         const strength = isLight ? 0.55 : 1;
+        ctx.fillStyle = `rgb(${rgb})`;   // set once; each star only changes globalAlpha
         for (const s of stars) {
-            const a = s.alpha * strength * (0.65 + 0.35 * Math.sin(time * s.twinkle + s.phase));
-            ctx.fillStyle = `rgba(${rgb}, ${a.toFixed(3)})`;
+            ctx.globalAlpha = s.alpha * strength * (0.65 + 0.35 * Math.sin(time * s.twinkle + s.phase));
             if (s.r > 1) {
                 ctx.beginPath();
                 ctx.arc(s.x, s.y, s.r, 0, TAU);
@@ -168,6 +168,8 @@
                 ctx.fillRect(s.x, s.y, s.r * 1.6, s.r * 1.6);
             }
         }
+
+        ctx.globalAlpha = 1;
 
         if (shooter) {
             const fade = Math.min(1, shooter.life / shooter.max * 2);

@@ -4,6 +4,13 @@
 (() => {
     'use strict';
 
+    /* Buttons whose href is still empty stay inactive until a link is pasted in */
+    document.querySelectorAll('a.btn[href=""]').forEach((a) => {
+        a.setAttribute('aria-disabled', 'true');
+        a.tabIndex = -1;
+        a.title = 'Link coming soon';
+    });
+
     const tabs = document.querySelectorAll('.tab[data-tab]');
     const panels = document.querySelectorAll('.wiki-panel');
     const template = document.getElementById('install-guide');
