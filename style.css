@@ -937,8 +937,8 @@ select.field-input option {
     top: 5px;
     left: 50%;
     z-index: 1;
-    width: 24px;
-    height: 19px;
+    width: 22px;
+    height: 22px;
     border-radius: 0 0 18px 18px;
     background: radial-gradient(circle at 50% 58%, #1b2440 0 2.6px, #0a0d18 3px 4.2px, transparent 4.6px), #000;
     transform: translateX(-50%);
