@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Screenshots of every ProjectDozG version.">
+    <meta name="description" content="ProjectDozG screenshots shown in a Samsung Galaxy A22 mockup.">
     <title>Screenshots — ProjectDozG</title>
     <link rel="icon" href="assets/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,17 +42,53 @@
     <main>
         <section id="screenshots">
             <h2 class="section-title reveal">Screenshots</h2>
-            <p class="section-desc reveal">Pick a version to see how it looks. Tap a screenshot to enlarge it.</p>
+            <p class="section-desc reveal">ProjectDozG across versions, shown in a Samsung Galaxy A22 mockup. Pick a version, then tap to enlarge.</p>
+
+            <div class="a22-specs reveal" aria-label="Samsung Galaxy A22 mockup details">
+                <span class="a22-spec a22-spec-brand">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 4h4"/></svg>
+                    Galaxy A22
+                </span>
+                <span class="a22-spec">SM-A225F/M</span>
+                <span class="a22-spec">6.4″ Super AMOLED</span>
+                <span class="a22-spec">90 Hz</span>
+                <span class="a22-spec">Infinity-U</span>
+            </div>
 
             <div class="tabs reveal" id="versionTabs" role="tablist" aria-label="ROM version"></div>
             <p class="tab-note" id="versionNote" hidden></p>
 
-            <!-- Filled by screenshots.js. Images go in images/screenshots/<version>/1 ... 4 -->
-            <div class="shots-grid" id="shotsGrid"></div>
+            <!-- Filled by screenshots.js. Images go in screenshots/<version>/1 ... 4 -->
+            <div class="shots-grid" id="shotsGrid" role="tabpanel" aria-live="polite"></div>
+
+            <div class="screenshots-cta reveal">
+                <div>
+                    <h3>Ready to try ProjectDozG?</h3>
+                    <p>Check the available builds for your device, then read the install guide before flashing.</p>
+                </div>
+                <div class="btn-group">
+                    <a class="btn btn-primary" href="devices.html">View builds</a>
+                    <a class="btn btn-secondary" href="guide.html">Install guide</a>
+                </div>
+            </div>
         </section>
 
-        <div class="lightbox" id="lightbox" role="dialog" aria-label="Screenshot preview">
-            <img id="lightboxImg" alt="">
+        <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot preview" aria-describedby="lightboxCaption" aria-hidden="true">
+            <button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close preview">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
+            <button type="button" class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous screenshot">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 5l-7 7 7 7"/></svg>
+            </button>
+
+            <figure class="lightbox-figure">
+                <img id="lightboxImg" alt="">
+                <figcaption id="lightboxCaption" aria-live="polite"></figcaption>
+            </figure>
+
+            <button type="button" class="lightbox-nav next" id="lightboxNext" aria-label="Next screenshot">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            </button>
         </div>
     </main>
 

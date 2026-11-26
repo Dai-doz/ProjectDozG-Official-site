@@ -63,45 +63,29 @@
             <h2 class="section-title reveal">Supported Devices</h2>
             <p class="section-desc reveal">Download files specifically structured for your device platform.</p>
 
-            <!--
-                To add a build, add one entry to a card's data-builds list:
-                  {"label": "V4.1 - Build 2", "url": "https://...", "info": "Date / notes"}
-                An empty url shows a disabled "Coming soon" button.
-            -->
+            <!-- Builds are defined once in builds.js; each row opens build.html. -->
             <div class="devices-grid">
-                <article class="device-card reveal" data-builds='[
-                    {"label": "V3.5.3 [Winter]", "url": "https://drive.google.com/file/d/19fKb34Fvma1bgD3dTNh6sNcbHg-RZ6Sm/view?usp=drive_link", "info": "Previous stable build"},
-                    {"label": "V4.1 [Beta]", "url": "https://pixeldrain.com/u/SzV3xrGS", "info": "Early-access"}
-                ]'>
+                <article class="device-card reveal" data-device="a12s">
                     <h3>Galaxy A12s</h3>
-                    <span class="device-codename">SM-A127F/M</span>
-                    <span class="device-codename">Maintainer : Dai-doz</span>
+                    <div class="device-meta">
+                        <span class="device-codename">SM-A127F/M</span>
+                        <span class="device-codename">Maintainer · Dai-doz</span>
+                    </div>
                     <div><span class="badge-official">Official builds</span></div>
-                    <label class="build-label" for="build-a12s">Choose build</label>
-                    <select class="build-select" id="build-a12s"></select>
-                    <p class="build-info" aria-live="polite"></p>
-                    <a class="download-link" target="_blank" rel="noopener noreferrer">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        <span class="download-text">Download ROM</span>
-                    </a>
+                    <p class="build-list-label">Choose a version</p>
+                    <div class="build-list" data-build-list></div>
                     <a class="card-more" href="wiki.html#a12s">Specs &amp; install guide →</a>
                 </article>
 
-                <article class="device-card reveal" data-builds='[
-                    {"label": "V3.5.3 [Falcon]", "url": "https://drive.google.com/file/d/1TqwHqgyYLVS3qVfp9qVeOCt9yiM51TzU/view?usp=sharing", "info": "Previous stable build"},
-                    {"label": "V4.1 [Beta]", "url": "", "info": "Coming soon"}
-                ]'>
+                <article class="device-card reveal" data-device="a22">
                     <h3>Galaxy A22</h3>
-                    <span class="device-codename">SM-A225F/M</span>
-                    <span class="device-codename">Maintainer : Lucasz</span>
+                    <div class="device-meta">
+                        <span class="device-codename">SM-A225F/M</span>
+                        <span class="device-codename">Maintainer · Lucasz</span>
+                    </div>
                     <div><span class="badge-official">Official builds</span></div>
-                    <label class="build-label" for="build-a22">Choose build</label>
-                    <select class="build-select" id="build-a22"></select>
-                    <p class="build-info" aria-live="polite"></p>
-                    <a class="download-link" target="_blank" rel="noopener noreferrer">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                        <span class="download-text">Download ROM</span>
-                    </a>
+                    <p class="build-list-label">Choose a version</p>
+                    <div class="build-list" data-build-list></div>
                     <a class="card-more" href="wiki.html#a22">Specs &amp; install guide →</a>
                 </article>
             </div>
@@ -114,6 +98,7 @@
 
     <script src="script.js" defer></script>
     <script src="space.js" defer></script>
+    <script src="builds.js" defer></script>
     <script src="devices.js" defer></script>
 </body>
 </html>
