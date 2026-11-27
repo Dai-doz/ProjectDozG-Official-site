@@ -28,9 +28,11 @@
     let time = 0;
     let last = 0;
     let rafId = 0;
+    let running = false;
     let isLight = root.dataset.theme === 'light';
     let stars = [];
     let flyers = [];
+    let flyerMargin = 0;
     let shooter = null;
     let nextShooter = 3;
 
@@ -62,6 +64,10 @@
     /* ---- Logos (pre-rendered to small sprites, so each frame is just drawImage) ---- */
     function logoSize() {
         return w < 600 ? 56 : Math.min(110, Math.max(72, w * 0.075));
+    }
+
+    function updateLogoMetrics() {
+        flyerMargin = logoSize() * 1.5;
     }
 
     function makeSprite(img, glow, size) {
@@ -128,7 +134,7 @@
             }
         }
 
-        const m = logoSize() * 1.5;
+        const m = flyerMargin;
         for (const f of flyers) {
             f.x += f.vx * dt;
             f.y += f.vy * dt;
@@ -188,7 +194,7 @@
             ctx.stroke();
         }
 
-        ctx.globalAlpha = w < 600 ? 0.6 : 0.88;   // lets text stay readable when a logo drifts behind it
+        ctx.globalAlpha = isLight ? 0.42 : (w < 600 ? 0.6 : 0.88);   // lets text stay readable when a logo drifts behind it
         for (const f of flyers) {
             if (!f.sprite) continue;
             const bob = Math.sin(time * 0.6 + f.phase) * 8;
@@ -204,6 +210,7 @@
 
     /* ---- Loop ---- */
     function frame(now) {
+        if (!running) return;
         const dt = Math.min(0.05, (now - last) / 1000 || 0);
         last = now;
         time += dt;
@@ -212,12 +219,20 @@
         rafId = requestAnimationFrame(frame);
     }
 
-    function start() {
+    function stop() {
+        running = false;
         cancelAnimationFrame(rafId);
+        rafId = 0;
+    }
+
+    function start() {
+        stop();
         if (motion.matches) {
             draw();                       // one still frame
             return;
         }
+        if (document.hidden) return;      // resume on visibilitychange
+        running = true;
         last = performance.now();
         rafId = requestAnimationFrame(frame);
     }
@@ -238,6 +253,7 @@
         canvas.width = Math.round(w * dpr);
         canvas.height = Math.round(h * dpr);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        updateLogoMetrics();
 
         seedStars();
         if (flyers.length) {
@@ -266,6 +282,12 @@
     }).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
     motion.addEventListener('change', start);
+
+    // Pause the animation loop while the tab is hidden (saves battery and CPU).
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stop();
+        else start();
+    });
 
     resize();
     start();

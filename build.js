@@ -7,22 +7,9 @@
     if (!data) return;
 
     const params = new URLSearchParams(location.search);
-    const deviceId = params.get('device');
-    const buildId = params.get('build');
-
-    let device = null;
-    let build = null;
-
-    if (!deviceId && !buildId) {
-        device = data.devices[0];
-        build = device.builds[0];
-    } else if (deviceId) {
-        device = data.getDevice(deviceId);
-        if (device) build = buildId ? device.builds.find((b) => b.id === buildId) : device.builds[0];
-    } else {
-        device = data.devices.find((d) => d.builds.some((b) => b.id === buildId)) || null;
-        if (device) build = device.builds.find((b) => b.id === buildId);
-    }
+    const resolved = data.getBuild(params.get('device'), params.get('build'));
+    const device = resolved ? resolved.device : null;
+    const build = resolved ? resolved.build : null;
 
     const content = document.getElementById('buildContent');
     const detail = document.getElementById('buildDetail');

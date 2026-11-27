@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08090d">
+    <meta name="description" content="ProjectDozG changelog: every release, kernel update, privacy improvement and device release in one timeline.">
+    <title>Changelog — ProjectDozG</title>
+    <link rel="icon" href="assets/logo-64.png" sizes="64x64" type="image/png">
+    <link rel="apple-touch-icon" href="assets/logo-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;document.querySelector('meta[name="theme-color"]').content=t==='light'?'#f8fafc':'#08090d'}catch(e){}</script>
+    <noscript><style>.reveal { opacity: 1; }</style></noscript>
+</head>
+<body>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="space" aria-hidden="true">
+        <canvas id="space"></canvas>
+    </div>
+
+    <header>
+        <a href="index.html" class="logo">
+            <img src="assets/logo.webp" alt="" class="logo-img" width="40" height="40" fetchpriority="high">
+            <span>ProjectDozG</span>
+        </a>
+        <div class="header-end">
+            <nav aria-label="Main">
+                <a href="index.html">Home</a>
+                <a href="screenshots.html">Screenshots</a>
+                <a href="devices.html">Devices</a>
+                <a href="changelog.html" class="active" aria-current="page">Changelog</a>
+                <a href="guide.html">Guide</a>
+                <a href="wiki.html">Wiki</a>
+                <a href="maintainers.html">Maintainers</a>
+            </nav>
+            <button type="button" class="theme-toggle-btn" id="themeToggle" aria-label="Toggle theme">
+                <svg id="themeIcon" viewBox="0 0 24 24" aria-hidden="true"></svg>
+            </button>
+        </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+        <!-- Custom changelog banner. To use another backdrop, change
+             --changelog-banner on .changelog-banner in style.css. -->
+        <section class="changelog-hero" id="changelog">
+            <div class="changelog-banner">
+                <div class="changelog-banner-copy">
+                    <span class="badge">Release history · 2026</span>
+                    <h1>Changelog</h1>
+                    <p class="changelog-lead">Every ProjectDozG release in one place — new firmware bases, Vulkan and Exclusive settings, kernel fixes and the changes that shaped the ROM.</p>
+
+                    <div class="btn-group changelog-actions">
+                        <a href="devices.html" class="btn btn-primary">Browse builds</a>
+                        <a href="https://t.me/DaidozBuild" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">Join Telegram</a>
+                    </div>
+
+                    <ul class="changelog-stats">
+                        <li><strong>5</strong><span>Releases</span></li>
+                        <li><strong>2</strong><span>Devices</span></li>
+                        <li><strong>V4.1</strong><span>Latest</span></li>
+                    </ul>
+                </div>
+
+                <div class="changelog-banner-visual" aria-hidden="true">
+                    <div class="release-stack">
+                        <article class="release-preview is-latest">
+                            <div class="release-preview-top">
+                                <span class="release-preview-version">V4.1</span>
+                                <span class="release-preview-tag">Beta</span>
+                            </div>
+                            <p class="release-preview-name">Early access · M36 5G</p>
+                            <div class="release-preview-meta"><span>M36 5G base</span><span>Initial release</span></div>
+                            <div class="release-preview-bar"><span style="--progress: 100%"></span></div>
+                        </article>
+
+                        <article class="release-preview is-stable">
+                            <div class="release-preview-top">
+                                <span class="release-preview-version">V3.5.3</span>
+                                <span class="release-preview-tag">Stable</span>
+                            </div>
+                            <p class="release-preview-name">Exclusive settings</p>
+                            <div class="release-preview-meta"><span>Vulkan toggle</span><span>PDozGKRNL</span></div>
+                            <div class="release-preview-bar"><span style="--progress: 100%"></span></div>
+                        </article>
+
+                        <article class="release-preview is-old">
+                            <div class="release-preview-top">
+                                <span class="release-preview-version">V3.5</span>
+                                <span class="release-preview-tag">Release</span>
+                            </div>
+                            <p class="release-preview-name">Camera &amp; performance</p>
+                            <div class="release-preview-meta"><span>Camera2API</span><span>Custom DVFS</span></div>
+                            <div class="release-preview-bar"><span style="--progress: 100%"></span></div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="changelog-section" aria-labelledby="releaseNotesTitle">
+            <div class="changelog-section-head">
+                <div>
+                    <h2 class="section-title" id="releaseNotesTitle">Release notes</h2>
+                    <p class="section-desc">Newest first. Filter by channel or jump straight to a build.</p>
+                </div>
+
+                <div class="changelog-filters" id="changelogFilters" role="group" aria-label="Filter releases" hidden>
+                    <button type="button" class="changelog-filter is-active" data-filter="all" aria-pressed="true">All</button>
+                    <button type="button" class="changelog-filter" data-filter="stable" aria-pressed="false">Stable</button>
+                    <button type="button" class="changelog-filter" data-filter="beta" aria-pressed="false">Beta</button>
+                    <button type="button" class="changelog-filter" data-filter="archived" aria-pressed="false">Archived</button>
+                </div>
+            </div>
+
+            <ol class="changelog-list" id="changelogList">
+                <!-- Add a release by copying one <li> block. Keep newest first,
+                     and set data-status to beta, stable or archived. -->
+
+                <li class="release-entry is-latest reveal" id="v4.1" data-status="beta">
+                    <article class="release-card" aria-labelledby="release-v4-1-title">
+                        <div class="release-head">
+                            <div>
+                                <div class="release-eyebrow">
+                                    <span class="release-version">V4.1</span>
+                                    <span class="release-badge is-beta">Beta</span>
+                                    <span class="release-badge is-latest">Latest</span>
+                                </div>
+                                <h3 id="release-v4-1-title">ProjectDozG V4.1 early-access</h3>
+                            </div>
+                            <a class="btn btn-secondary release-link" href="build.html?device=a12s&amp;build=v4.1">View build</a>
+                        </div>
+
+                        <p class="release-summary">The first early-access build of ProjectDozG V4.1, based on the M36 5G firmware.</p>
+
+                        <ul class="release-changes">
+                            <li>Beta firmware based on M36 5G</li>
+                            <li>Initial release</li>
+                        </ul>
+
+                        <div class="release-devices">
+                            <a class="device-chip is-ready" href="build.html?device=a12s&amp;build=v4.1">Galaxy A12s · Available</a>
+                            <a class="device-chip is-soon" href="build.html?device=a22&amp;build=v4.1">Galaxy A22 · Coming soon</a>
+                        </div>
+                    </article>
+                </li>
+
+                <li class="release-entry reveal" id="v3.5.3" data-status="stable">
+                    <article class="release-card" aria-labelledby="release-v3-5-3-title">
+                        <div class="release-head">
+                            <div>
+                                <div class="release-eyebrow">
+                                    <span class="release-version">V3.5.3</span>
+                                    <span class="release-badge is-stable">Stable</span>
+                                </div>
+                                <h3 id="release-v3-5-3-title">Exclusive settings arrive</h3>
+                            </div>
+                            <a class="btn btn-secondary release-link" href="build.html?device=a12s&amp;build=v3.5.3">View build</a>
+                        </div>
+
+                        <p class="release-summary">A settings-focused release with new privacy controls, toggleable Vulkan and a kernel fix for deep sleep.</p>
+
+                        <ul class="release-changes">
+                            <li>Introducing new Exclusive settings</li>
+                            <li>Added the "About this Project" page</li>
+                            <li>Vulkan is toggleable</li>
+                            <li>Animations can be changed in Exclusive settings</li>
+                            <li>Hide developer settings in Exclusive settings</li>
+                            <li>Fixed Kernel Panic while deep sleep [PDozGKRNL]</li>
+                            <li>IMEI is hidden [tap to view]</li>
+                            <li>More improvements</li>
+                        </ul>
+
+                        <div class="release-devices">
+                            <a class="device-chip is-ready" href="build.html?device=a12s&amp;build=v3.5.3">Galaxy A12s · Available</a>
+                            <a class="device-chip is-ready" href="build.html?device=a22&amp;build=v3.5.3">Galaxy A22 · Available</a>
+                        </div>
+                    </article>
+                </li>
+
+                <li class="release-entry reveal" id="v3.5" data-status="stable">
+                    <article class="release-card" aria-labelledby="release-v3-5-title">
+                        <div class="release-head">
+                            <div>
+                                <div class="release-eyebrow">
+                                    <span class="release-version">V3.5</span>
+                                    <span class="release-badge is-stable">Release</span>
+                                </div>
+                                <h3 id="release-v3-5-title">Camera, performance and system tuning</h3>
+                            </div>
+                            <a class="btn btn-secondary release-link" href="screenshots.html">View screenshots</a>
+                        </div>
+
+                        <p class="release-summary">A feature-heavy release focused on camera support, system app optimization, RAM management and useful new tools.</p>
+
+                        <ul class="release-changes">
+                            <li>New boot animation from ProjectDozG</li>
+                            <li>Reduced spam logs</li>
+                            <li>Fully optimized system apps</li>
+                            <li>Dex2oat on all system applications for faster launch times and smoother performance</li>
+                            <li>Added Audio eraser engineer</li>
+                            <li>Added Weather wallpaper engineer</li>
+                            <li>Added creative studio</li>
+                            <li>Fixed Samsung Camera</li>
+                            <li>Full Camera2API enabled for all sensors</li>
+                            <li>Improved RAM management for more responsive multitasking on 3/4 GB models</li>
+                            <li>Fixed Samsung Cloud</li>
+                            <li>Removed Now Brief</li>
+                            <li>Custom DVFS</li>
+                            <li>Spoofed GPhoto</li>
+                            <li>Disabled encryption via vendor</li>
+                            <li>Removed unnecessary apps</li>
+                            <li>Latest security patch: S711BXXSGGZF2</li>
+                            <li>Changed phone status to Custom</li>
+                            <li>Updated vendor patches</li>
+                            <li>Nuked Fabric_crypto</li>
+                            <li>Nuked blur [from the latest vote]</li>
+                        </ul>
+
+                        <div class="release-devices">
+                            <span class="device-chip is-archived">ProjectDozG devices · Release</span>
+                        </div>
+                    </article>
+                </li>
+
+                <li class="release-entry reveal" id="v3.1" data-status="stable">
+                    <article class="release-card" aria-labelledby="release-v3-1-title">
+                        <div class="release-head">
+                            <div>
+                                <div class="release-eyebrow">
+                                    <span class="release-version">V3.1</span>
+                                    <span class="release-badge is-stable">Release</span>
+                                </div>
+                                <h3 id="release-v3-1-title">Vulkan, LTS and Exclusive settings</h3>
+                            </div>
+                            <a class="btn btn-secondary release-link" href="screenshots.html#beta-v3.1">View screenshots</a>
+                        </div>
+
+                        <p class="release-summary">ProjectDozG V3.1 brought the Vulkan API, an LTS firmware merge and the first Exclusive settings integration.</p>
+
+                        <ul class="release-changes">
+                            <li>Changed the OpenGL API to the Vulkan API for performance</li>
+                            <li>Merged firmware to LTS</li>
+                            <li>Merged Exclusive settings from ProjectDozG source</li>
+                            <li>New boot animation for ProjectDozG</li>
+                            <li>Reduced spam logs</li>
+                            <li>Fully optimized system apps</li>
+                            <li>Dex2oat on all system applications for faster launch times and smoother performance</li>
+                        </ul>
+
+                        <div class="release-devices">
+                            <span class="device-chip is-archived">ProjectDozG devices · Release</span>
+                        </div>
+                    </article>
+                </li>
+
+                <li class="release-entry reveal" id="v3.0" data-status="archived">
+                    <article class="release-card" aria-labelledby="release-v3-0-title">
+                        <div class="release-head">
+                            <div>
+                                <div class="release-eyebrow">
+                                    <span class="release-version">V3.0</span>
+                                    <span class="release-badge is-archived">Archived</span>
+                                </div>
+                                <h3 id="release-v3-0-title">ProjectDozG V3.0 is here</h3>
+                            </div>
+                        </div>
+
+                        <p class="release-summary">The initial ProjectDozG release, with the first Stable and Beta LTS device lists.</p>
+
+                        <ul class="release-changes">
+                            <li>Initial release</li>
+                            <li>Merged S23FE into the ProjectDozG Stable LTS list</li>
+                            <li>Merged A17 5G into the ProjectDozG Beta LTS list</li>
+                        </ul>
+
+                        <div class="release-devices">
+                            <span class="device-chip is-archived">S23FE · Stable LTS</span>
+                            <span class="device-chip is-archived">A17 5G · Beta LTS</span>
+                        </div>
+                    </article>
+                </li>
+            </ol>
+
+            <div class="screenshots-cta changelog-cta reveal">
+                <div>
+                    <h3>Ready for the latest release?</h3>
+                    <p>Check the build for your device, then read the install guide before flashing.</p>
+                </div>
+                <div class="btn-group">
+                    <a class="btn btn-primary" href="devices.html">View builds</a>
+                    <a class="btn btn-secondary" href="guide.html">Install guide</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© <span data-year>2026</span> ProjectDozG. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js" defer></script>
+    <script src="space.js" defer></script>
+    <script src="changelog.js" defer></script>
+</body>
+</html>

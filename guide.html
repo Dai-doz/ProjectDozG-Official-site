@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#08090d">
     <meta name="description" content="How to unlock the bootloader and install ProjectDozG.">
     <title>Install Guide — ProjectDozG</title>
-    <link rel="icon" href="assets/logo.png">
+    <link rel="icon" href="assets/logo-64.png" sizes="64x64" type="image/png">
+    <link rel="apple-touch-icon" href="assets/logo-192.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script>try{document.documentElement.dataset.theme=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){}</script>
+    <script>try{var t=localStorage.getItem('theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;document.querySelector('meta[name="theme-color"]').content=t==='light'?'#f8fafc':'#08090d'}catch(e){}</script>
     <noscript><style>.reveal { opacity: 1; }</style></noscript>
 </head>
 <body>
+
+    <a class="skip-link" href="#main">Skip to content</a>
 
     <div class="space" aria-hidden="true">
         <canvas id="space"></canvas>
@@ -21,7 +25,7 @@
 
     <header>
         <a href="index.html" class="logo">
-            <img src="assets/logo.png" alt="" class="logo-img" width="40" height="40">
+            <img src="assets/logo.webp" alt="" class="logo-img" width="40" height="40" fetchpriority="high">
             <span>ProjectDozG</span>
         </a>
         <div class="header-end">
@@ -29,6 +33,7 @@
                 <a href="index.html">Home</a>
                 <a href="screenshots.html">Screenshots</a>
                 <a href="devices.html">Devices</a>
+                <a href="changelog.html">Changelog</a>
                 <a href="guide.html" class="active" aria-current="page">Guide</a>
                 <a href="wiki.html">Wiki</a>
                 <a href="maintainers.html">Maintainers</a>
@@ -39,7 +44,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main" tabindex="-1">
         <section id="instructions">
             <div class="doc-container">
 
@@ -96,7 +101,7 @@
     </main>
 
     <footer>
-        <p>© 2026 ProjectDozG. All rights reserved.</p>
+        <p>© <span data-year>2026</span> ProjectDozG. All rights reserved.</p>
     </footer>
 
     <script src="script.js" defer></script>

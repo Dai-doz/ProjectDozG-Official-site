@@ -39,9 +39,9 @@
                     screenshots: 'v4.1',
                     banner: 3,
                     highlights: [
-                        'Latest One UI 9 / Android 17 base',
-                        'PDozG+ kernel with new DVFS tuning',
-                        'Early-access release — expect rough edges'
+                        'Beta firmware based on M36 5G',
+                        'Initial early-access release',
+                        'Expect rough edges on this beta'
                     ]
                 },
                 {
@@ -56,9 +56,10 @@
                     screenshots: 'v3.5.3',
                     banner: 3,
                     highlights: [
-                        'Stable daily-driver release',
-                        'PDozG+ kernel and ProjectDozG Core',
-                        'Winter release with privacy tweaks'
+                        'New Exclusive settings',
+                        'Vulkan is toggleable',
+                        'Fixed Kernel Panic on deep sleep [PDozGKRNL]',
+                        'IMEI hidden with tap to view'
                     ]
                 }
             ]
@@ -101,8 +102,9 @@
                     screenshots: 'v3.5.3',
                     banner: 3,
                     highlights: [
-                        'Stable daily-driver release',
-                        'PDozG+ kernel and ProjectDozG Core',
+                        'New Exclusive settings',
+                        'Vulkan is toggleable',
+                        'Fixed Kernel Panic on deep sleep [PDozGKRNL]',
                         'Falcon release for MediaTek devices'
                     ]
                 }
@@ -163,9 +165,35 @@
         return row;
     }
 
+    function getDevice(id) {
+        return devices.find((device) => device.id === id) || null;
+    }
+
+    /* Resolve a ?device=&build= pair. Falls back to the first device/build when
+       both params are absent, and finds the device when only a build id is given. */
+    function getBuild(deviceId, buildId) {
+        let device = null;
+
+        if (deviceId) {
+            device = getDevice(deviceId);
+        } else if (buildId) {
+            device = devices.find((d) => d.builds.some((b) => b.id === buildId)) || null;
+        } else {
+            device = devices[0] || null;
+        }
+
+        if (!device) return null;
+        const build = buildId
+            ? device.builds.find((b) => b.id === buildId)
+            : device.builds[0];
+
+        return build ? { device, build } : null;
+    }
+
     window.ProjectDozG = {
         devices,
-        getDevice: (id) => devices.find((device) => device.id === id) || null,
+        getDevice,
+        getBuild,
         hostLabel,
         buildHref,
         buildRow

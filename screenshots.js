@@ -106,7 +106,8 @@
 
             const shot = img.cloneNode();
             shot.alt = `ProjectDozG ${version.label} screenshot ${n} in a Galaxy A22 mockup`;
-            shot.decoding = 'sync';
+            shot.decoding = 'async';
+            shot.loading = n > 2 ? 'lazy' : 'eager';
             const screen = slot.querySelector('.shot-screen');
             if (screen) screen.replaceChildren(shot);
 

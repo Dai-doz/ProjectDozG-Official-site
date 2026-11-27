@@ -1,5 +1,6 @@
 /* Home page: cycles "Welcome" through several languages above the title,
-   with a blur-and-fade swap like the One UI setup screen. Static when reduced motion is on. */
+   with a blur-and-fade swap like the One UI setup screen. Static when reduced
+   motion is on or the tab is hidden. */
 (() => {
     'use strict';
 
@@ -24,21 +25,34 @@
 
     const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let index = 0;
-    let timer = 0;
+    let holdTimer = 0;
+    let fadeTimer = 0;
+
+    function scheduleHold() {
+        clearTimeout(holdTimer);
+        if (motion.matches || document.hidden) return;
+        holdTimer = setTimeout(swap, HOLD);
+    }
 
     function swap() {
+        clearTimeout(fadeTimer);
         el.classList.add('out');
-        setTimeout(() => {
+        fadeTimer = setTimeout(() => {
             index = (index + 1) % WORDS.length;
             el.textContent = WORDS[index].text;
             el.lang = WORDS[index].lang;
             el.classList.remove('out');   // switching back to wordIn plays the entrance
+            scheduleHold();
         }, FADE);
     }
 
     function start() {
-        clearInterval(timer);
-        if (!motion.matches && !document.hidden) timer = setInterval(swap, HOLD + FADE);
+        clearTimeout(holdTimer);
+        clearTimeout(fadeTimer);
+        el.classList.remove('out');
+
+        if (motion.matches || document.hidden) return;
+        scheduleHold();
     }
 
     motion.addEventListener('change', start);
