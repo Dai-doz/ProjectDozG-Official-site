@@ -3,6 +3,7 @@
    1. Tokens   2. Base   3. Space background   4. Layout   5. Header
    6. Buttons  7. Hero   8. Cards        9. Screenshots  10. Guide
    11. Wiki    12. Footer  13. Motion    14. Responsive  15. Changelog
+   16. Tools wiki tables
    ========================================================================== */
 
 /* 1. Tokens ---------------------------------------------------------------- */
@@ -2034,6 +2035,16 @@ body.lightbox-open {
     display: none;
 }
 
+.wiki-panel .doc-container {
+    padding: 36px 32px;
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    background: var(--card-bg);
+    box-shadow: 0 20px 60px var(--glass-shadow);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+}
+
 .wiki-panel:not([hidden]) > .doc-container {
     animation: fadeInUp 0.7s var(--ease) both;   /* replays each time a tab is opened */
 }
@@ -2222,6 +2233,7 @@ footer {
     .timeline::before { left: 23px; }
     .timeline-step { padding: 15px 15px 15px 50px; }
     .step-number { left: 5px; width: 30px; height: 30px; font-size: 0.8rem; }
+    .wiki-panel .doc-container { padding: 24px 18px; border-radius: 20px; }
     .wiki-card { padding: 24px; }
     .bug-form { padding: 24px 20px; }
 
@@ -3000,4 +3012,87 @@ main:focus {
 /* The author display:flex must not defeat the hidden attribute */
 .changelog-filters[hidden] {
     display: none;
+}
+
+/* 16. Tools wiki tables ---------------------------------------------------- */
+.tools-table-wrap {
+    max-width: 900px;
+    margin: 0 auto 24px;
+    overflow-x: auto;
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    background: var(--card-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    scrollbar-width: thin;
+}
+
+.tools-table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+}
+
+.tools-table-credits {
+    min-width: 720px;
+}
+
+.tools-table th,
+.tools-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--glass-border);
+    text-align: left;
+    vertical-align: top;
+}
+
+.tools-table th {
+    background: var(--glass-border);
+    color: var(--text-main);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.tools-table td {
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.tools-table td:first-child {
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.tools-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.tools-table code {
+    white-space: nowrap;
+}
+
+.tools-credit-index {
+    color: var(--accent) !important;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+.tools-note {
+    margin: -8px 0 32px;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .tools-table th,
+    .tools-table td {
+        padding: 10px 12px;
+    }
+
+    .tools-note {
+        font-size: 0.82rem;
+    }
 }
